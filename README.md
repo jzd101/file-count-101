@@ -1,12 +1,12 @@
 # File Monitor Script
 
-This is a Python script designed to monitor a specific directory for file activity. It calculates the average number of files over specified time intervals and tracks the rate of file creation and deletion.
+This is a Python script designed to monitor a specific directory for file activity. It calculates the average number of files over specified time intervals and tracks the net change in the number of files.
 
 ## Features
 
 - **Monitor Total Files**: Tracks the number of files in a directory over time.
 - **Calculate Averages**: Reports the average total files at user-defined time intervals (e.g., first 5 minutes, 10 minutes).
-- **Track Activity Rates**: Calculates the rate of files added and removed per minute.
+- **Calculate File Count Difference**: Reports the difference in the number of files between the start and end of the monitoring period.
 - **Recursive Option**: Supports monitoring subdirectories.
 - **Environment Variable Configuration**: Path is set via an environment variable.
 
@@ -77,8 +77,9 @@ Average Total Files:
   - @ 5.0 min: 120.50
   - @ 10.0 min: 115.20
 ----------------------------------------
-File Change Rates:
-  - Files Increased: 5.20 files/min
-  - Files Decreased: 2.10 files/min
+File Count Difference:
+  - Start: 100
+  - End: 110
+  - Difference: 10 (End - Start)
 ========================================
 ```

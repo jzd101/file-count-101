@@ -67,12 +67,10 @@ def main():
     # history: list of (timestamp, count)
     history = []
 
-    total_added = 0
-    total_removed = 0
-
     # Initial scan
     current_files = get_files(monitor_path, args.recursive)
-    history.append((time.time(), len(current_files)))
+    initial_count = len(current_files)
+    history.append((time.time(), initial_count))
 
     try:
         while time.time() < end_time:
@@ -81,13 +79,6 @@ def main():
 
             now = time.time()
             new_files_set = get_files(monitor_path, args.recursive)
-
-            # Calculate diffs
-            added = len(new_files_set - current_files)
-            removed = len(current_files - new_files_set)
-
-            total_added += added
-            total_removed += removed
 
             current_files = new_files_set
             history.append((now, len(current_files)))
@@ -128,20 +119,14 @@ def main():
 
     print("-" * 40)
 
-    # 2. File Increase/Decrease Rates
-    # Rate = Total Count / Total Minutes
+    # 2. File Count Difference
+    final_count = len(current_files)
+    count_diff = final_count - initial_count
 
-    # Avoid division by zero
-    if elapsed_minutes > 0:
-        increase_rate = total_added / elapsed_minutes
-        decrease_rate = total_removed / elapsed_minutes
-    else:
-        increase_rate = 0
-        decrease_rate = 0
-
-    print("File Change Rates:")
-    print(f"  - Files Increased: {increase_rate:.2f} files/min")
-    print(f"  - Files Decreased: {decrease_rate:.2f} files/min")
+    print("File Count Difference:")
+    print(f"  - Start: {initial_count}")
+    print(f"  - End: {final_count}")
+    print(f"  - Difference: {count_diff} (End - Start)")
 
     print("="*40)
 
