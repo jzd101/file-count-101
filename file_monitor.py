@@ -37,13 +37,14 @@ def main():
     parser.add_argument("--duration", type=float, required=True, help="Duration to run the monitor in minutes.")
     parser.add_argument("--intervals", type=float, nargs='+', required=True, help="Time intervals (in minutes) to calculate average total files.")
     parser.add_argument("--recursive", action="store_true", help="Include subdirectories in the scan.")
+    parser.add_argument("--path", type=str, help="Path to the directory to monitor. Overrides MONITOR_PATH environment variable.")
 
     args = parser.parse_args()
 
-    monitor_path = os.environ.get("MONITOR_PATH")
+    monitor_path = args.path if args.path else os.environ.get("MONITOR_PATH")
     if not monitor_path:
-        print("Error: Environment variable 'MONITOR_PATH' is not set.")
-        print("Please set it before running the script. Example: export MONITOR_PATH=/path/to/monitor")
+        print("Error: Target path is not specified.")
+        print("Please use --path argument or set MONITOR_PATH environment variable.")
         sys.exit(1)
 
     if not os.path.isdir(monitor_path):
